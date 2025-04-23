@@ -5,7 +5,8 @@ class TaskScreen extends StatefulWidget {
   _TaskScreenState createState() => _TaskScreenState();
 }
 
-class _TaskScreenState extends State<TaskScreen> with SingleTickerProviderStateMixin {
+class _TaskScreenState extends State<TaskScreen>
+    with SingleTickerProviderStateMixin {
   // Lista de tarefas pendentes e concluídas
   final List<String> _pendingTasks = [
     'Tarefa 1: Preparar apresentação',
@@ -20,27 +21,35 @@ class _TaskScreenState extends State<TaskScreen> with SingleTickerProviderStateM
     'Tarefa C: Organizar documentos',
   ];
 
-  final TextEditingController _taskController = TextEditingController(); // Controlador para o TextField
+  final TextEditingController _taskController =
+      TextEditingController(); // Controlador para o TextField
 
   late TabController _tabController; // Controlador do TabBar
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this); // Inicializa o controlador do TabBar com 2 abas
+    _tabController = TabController(
+      length: 2,
+      vsync: this,
+    ); // Inicializa o controlador do TabBar com 2 abas
   }
 
   @override
   void dispose() {
-    _tabController.dispose(); // Libera o controlador do TabBar quando a tela for descartada
+    _tabController
+        .dispose(); // Libera o controlador do TabBar quando a tela for descartada
     super.dispose();
   }
 
   // Função para adicionar uma nova tarefa à lista de pendentes
   void _addTask() {
-    if (_taskController.text.isNotEmpty) { // Verifica se o campo de tarefa não está vazio
+    if (_taskController.text.isNotEmpty) {
+      // Verifica se o campo de tarefa não está vazio
       setState(() {
-        _pendingTasks.add(_taskController.text); // Adiciona a tarefa à lista de pendentes
+        _pendingTasks.add(
+          _taskController.text,
+        ); // Adiciona a tarefa à lista de pendentes
       });
       _taskController.clear(); // Limpa o campo de texto após adicionar a tarefa
     }
@@ -58,7 +67,10 @@ class _TaskScreenState extends State<TaskScreen> with SingleTickerProviderStateM
           flexibleSpace: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.blue[700]!, Colors.green[600]!], // Gradiente de cores no AppBar
+                colors: [
+                  Colors.blue[700]!,
+                  Colors.green[600]!,
+                ], // Gradiente de cores no AppBar
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -76,10 +88,14 @@ class _TaskScreenState extends State<TaskScreen> with SingleTickerProviderStateM
           ),
           bottom: TabBar(
             controller: _tabController, // Controlador do TabBar
-            tabs: [Tab(text: 'Pendentes'), Tab(text: 'Concluídas')], // Abas para "Pendentes" e "Concluídas"
+            tabs: [
+              Tab(text: 'Pendentes'),
+              Tab(text: 'Concluídas'),
+            ], // Abas para "Pendentes" e "Concluídas"
             indicatorColor: Colors.deepOrangeAccent, // Cor do indicador da aba
             labelColor: Colors.white, // Cor do texto da aba selecionada
-            unselectedLabelColor: Colors.grey[300], // Cor do texto das abas não selecionadas
+            unselectedLabelColor:
+                Colors.grey[300], // Cor do texto das abas não selecionadas
           ),
         ),
       ),
@@ -90,15 +106,21 @@ class _TaskScreenState extends State<TaskScreen> with SingleTickerProviderStateM
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: ListView.builder(
-              itemCount: _pendingTasks.length, // Quantidade de tarefas pendentes
+              itemCount:
+                  _pendingTasks.length, // Quantidade de tarefas pendentes
               itemBuilder: (context, index) {
                 return AnimatedContainer(
                   duration: Duration(milliseconds: 300), // Duração da animação
                   curve: Curves.easeInOut, // Tipo de animação
-                  margin: EdgeInsets.symmetric(vertical: 8), // Margem para separar as tarefas
+                  margin: EdgeInsets.symmetric(
+                    vertical: 8,
+                  ), // Margem para separar as tarefas
                   decoration: BoxDecoration(
-                    color: Colors.blueGrey[50], // Cor de fundo da tarefa pendente
-                    borderRadius: BorderRadius.circular(20), // Bordas arredondadas
+                    color:
+                        Colors.blueGrey[50], // Cor de fundo da tarefa pendente
+                    borderRadius: BorderRadius.circular(
+                      20,
+                    ), // Bordas arredondadas
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black26, // Cor da sombra
@@ -118,16 +140,22 @@ class _TaskScreenState extends State<TaskScreen> with SingleTickerProviderStateM
                       ),
                     ),
                     leading: Icon(
-                      Icons.access_time, // Ícone de relógio para tarefas pendentes
+                      Icons
+                          .access_time, // Ícone de relógio para tarefas pendentes
                       color: Colors.orangeAccent,
                     ),
                     trailing: IconButton(
-                      icon: Icon(Icons.check_circle, color: Colors.green), // Ícone de "check" para marcar como concluída
+                      icon: Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                      ), // Ícone de "check" para marcar como concluída
                       onPressed: () {
                         setState(() {
                           // Move a tarefa para a lista de concluídas
                           _completedTasks.add(_pendingTasks[index]);
-                          _pendingTasks.removeAt(index); // Remove da lista de pendentes
+                          _pendingTasks.removeAt(
+                            index,
+                          ); // Remove da lista de pendentes
                         });
                       },
                     ),
@@ -140,15 +168,22 @@ class _TaskScreenState extends State<TaskScreen> with SingleTickerProviderStateM
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: ListView.builder(
-              itemCount: _completedTasks.length, // Quantidade de tarefas concluídas
+              itemCount:
+                  _completedTasks.length, // Quantidade de tarefas concluídas
               itemBuilder: (context, index) {
                 return AnimatedContainer(
                   duration: Duration(milliseconds: 300), // Duração da animação
                   curve: Curves.easeInOut, // Tipo de animação
-                  margin: EdgeInsets.symmetric(vertical: 8), // Margem para separar as tarefas
+                  margin: EdgeInsets.symmetric(
+                    vertical: 8,
+                  ), // Margem para separar as tarefas
                   decoration: BoxDecoration(
-                    color: Colors.green[50], // Cor de fundo para tarefas concluídas
-                    borderRadius: BorderRadius.circular(20), // Bordas arredondadas
+                    color:
+                        Colors
+                            .green[50], // Cor de fundo para tarefas concluídas
+                    borderRadius: BorderRadius.circular(
+                      20,
+                    ), // Bordas arredondadas
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black26, // Cor da sombra
@@ -167,7 +202,10 @@ class _TaskScreenState extends State<TaskScreen> with SingleTickerProviderStateM
                         color: Colors.green[700],
                       ),
                     ),
-                    leading: Icon(Icons.check_circle, color: Colors.green), // Ícone de "check" para tarefas concluídas
+                    leading: Icon(
+                      Icons.check_circle,
+                      color: Colors.green,
+                    ), // Ícone de "check" para tarefas concluídas
                   ),
                 );
               },

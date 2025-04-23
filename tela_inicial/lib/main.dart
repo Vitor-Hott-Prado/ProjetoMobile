@@ -1,45 +1,44 @@
 import 'package:flutter/material.dart';
-// Importa o arquivo da tela principal (home), que será exibida ao abrir o app
-import 'home_screen.dart'; // Certifique-se de importar sua tela principal corretamente
+// Importa a tela de login como ponto inicial
+import 'login_screen.dart';
 
 void main() {
-  // Função principal que inicia o aplicativo Flutter
   runApp(MyApp());
 }
 
-// Widget principal do aplicativo
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Definindo o tema claro do aplicativo
+    // Tema claro do app
     ThemeData lightTheme = ThemeData(
-      brightness: Brightness.light, // Define o brilho como claro
-      primarySwatch: Colors.blue, // Cor primária padrão
-      appBarTheme: AppBarTheme(backgroundColor: Colors.blueAccent), // Cor da AppBar
+      brightness: Brightness.light,
+      primarySwatch: Colors.blue,
+      appBarTheme: AppBarTheme(backgroundColor: Colors.blueAccent),
       buttonTheme: ButtonThemeData(
-        buttonColor: Colors.blueAccent, // Cor dos botões
-        textTheme: ButtonTextTheme.primary, // Cor do texto nos botões
+        buttonColor: Colors.blueAccent,
+        textTheme: ButtonTextTheme.primary,
       ),
     );
 
-    // Definindo o tema escuro do aplicativo
+    // Tema escuro do app
     ThemeData darkTheme = ThemeData(
-      brightness: Brightness.dark, // Define o brilho como escuro
-      primarySwatch: Colors.blue, // Mantém a mesma cor primária
-      appBarTheme: AppBarTheme(backgroundColor: Colors.blueGrey), // Cor da AppBar no modo escuro
+      brightness: Brightness.dark,
+      primarySwatch: Colors.blue,
+      appBarTheme: AppBarTheme(backgroundColor: Colors.blueGrey),
       buttonTheme: ButtonThemeData(
-        buttonColor: Colors.blueGrey, // Cor dos botões no modo escuro
-        textTheme: ButtonTextTheme.primary, // Cor do texto nos botões
+        buttonColor: Colors.blueGrey,
+        textTheme: ButtonTextTheme.primary,
       ),
     );
 
-    // Retorna o MaterialApp, que é o container principal do app
+    // App principal
     return MaterialApp(
-      title: 'Meu App', // Título do aplicativo
-      theme: lightTheme, // Define o tema claro como padrão
-      darkTheme: darkTheme, // Define o tema escuro
-      themeMode: ThemeMode.system, // Alterna entre claro e escuro conforme o sistema
-      home: HomeScreen(), // Define a tela inicial como HomeScreen
+      title: 'Meu App',
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: ThemeMode.system,
+      home: LoginScreen(), // Agora inicia com a tela de login
+      debugShowCheckedModeBanner: false, // Remove a faixa de debug
     );
   }
 }

@@ -8,7 +8,8 @@ class SettingsScreen extends StatelessWidget {
       // AppBar com título da tela
       appBar: AppBar(title: Text('Configurações')),
 
-      // Corpo da tela centralizado com um texto
+      // Corpo da tela centralizado com um textocaticadiado
+    
       body: Center(
         child: Text('Tela de Configurações'),
       ),
