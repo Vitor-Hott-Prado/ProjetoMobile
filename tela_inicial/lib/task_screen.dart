@@ -1,3 +1,5 @@
+// Vitor
+
 import 'package:flutter/material.dart';
 
 class TaskScreen extends StatefulWidget {
@@ -5,8 +7,7 @@ class TaskScreen extends StatefulWidget {
   _TaskScreenState createState() => _TaskScreenState();
 }
 
-class _TaskScreenState extends State<TaskScreen>
-    with SingleTickerProviderStateMixin {
+class _TaskScreenState extends State<TaskScreen> with SingleTickerProviderStateMixin {
   // Lista de tarefas pendentes e concluídas
   final List<String> _pendingTasks = [
     'Tarefa 1: Preparar apresentação',
@@ -21,8 +22,7 @@ class _TaskScreenState extends State<TaskScreen>
     'Tarefa C: Organizar documentos',
   ];
 
-  final TextEditingController _taskController =
-      TextEditingController(); // Controlador para o TextField
+  final TextEditingController _taskController = TextEditingController(); // Controlador para o TextField
 
   late TabController _tabController; // Controlador do TabBar
 
@@ -30,15 +30,14 @@ class _TaskScreenState extends State<TaskScreen>
   void initState() {
     super.initState();
     _tabController = TabController(
-      length: 2,
-      vsync: this,
-    ); // Inicializa o controlador do TabBar com 2 abas
+      length: 2, // Define que o TabBar terá 2 abas
+      vsync: this, // Sincroniza a animação do TabBar com o ciclo de vida do widget
+    );
   }
 
   @override
   void dispose() {
-    _tabController
-        .dispose(); // Libera o controlador do TabBar quando a tela for descartada
+    _tabController.dispose(); // Libera o controlador quando o widget for descartado
     super.dispose();
   }
 
@@ -47,9 +46,7 @@ class _TaskScreenState extends State<TaskScreen>
     if (_taskController.text.isNotEmpty) {
       // Verifica se o campo de tarefa não está vazio
       setState(() {
-        _pendingTasks.add(
-          _taskController.text,
-        ); // Adiciona a tarefa à lista de pendentes
+        _pendingTasks.add(_taskController.text); // Adiciona a tarefa à lista de pendentes
       });
       _taskController.clear(); // Limpa o campo de texto após adicionar a tarefa
     }
@@ -60,7 +57,7 @@ class _TaskScreenState extends State<TaskScreen>
     return Scaffold(
       // AppBar com maior altura e gradiente
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(120.0), // Altura maior para o AppBar
+        preferredSize: Size.fromHeight(120.0), // Define uma altura maior para o AppBar
         child: AppBar(
           backgroundColor: Colors.blueAccent, // Cor de fundo do AppBar
           elevation: 0,
@@ -68,16 +65,16 @@ class _TaskScreenState extends State<TaskScreen>
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.blue[700]!,
+                  Colors.blue[700]!, // Gradiente para o fundo do AppBar
                   Colors.green[600]!,
-                ], // Gradiente de cores no AppBar
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
             ),
             child: Center(
               child: Text(
-                'Tarefas Futuristas',
+                'Tarefas Futuristas', // Título do AppBar
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
@@ -87,40 +84,35 @@ class _TaskScreenState extends State<TaskScreen>
             ),
           ),
           bottom: TabBar(
-            controller: _tabController, // Controlador do TabBar
+            controller: _tabController, // Controlador para gerenciar o estado das abas
             tabs: [
-              Tab(text: 'Pendentes'),
-              Tab(text: 'Concluídas'),
-            ], // Abas para "Pendentes" e "Concluídas"
-            indicatorColor: Colors.deepOrangeAccent, // Cor do indicador da aba
+              Tab(text: 'Pendentes'), // Aba para tarefas pendentes
+              Tab(text: 'Concluídas'), // Aba para tarefas concluídas
+            ],
+            indicatorColor: Colors.deepOrangeAccent, // Cor do indicador de aba
             labelColor: Colors.white, // Cor do texto da aba selecionada
-            unselectedLabelColor:
-                Colors.grey[300], // Cor do texto das abas não selecionadas
+            unselectedLabelColor: Colors.grey[300], // Cor do texto das abas não selecionadas
           ),
         ),
       ),
       body: TabBarView(
-        controller: _tabController, // Controlador do TabBarView
+        controller: _tabController, // Controlador para o conteúdo das abas
         children: [
           // Aba Pendentes - Exibe a lista de tarefas pendentes
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: ListView.builder(
-              itemCount:
-                  _pendingTasks.length, // Quantidade de tarefas pendentes
+              itemCount: _pendingTasks.length, // Quantidade de tarefas pendentes
               itemBuilder: (context, index) {
                 return AnimatedContainer(
-                  duration: Duration(milliseconds: 300), // Duração da animação
+                  duration: Duration(milliseconds: 300), // Duração da animação de transição
                   curve: Curves.easeInOut, // Tipo de animação
                   margin: EdgeInsets.symmetric(
-                    vertical: 8,
-                  ), // Margem para separar as tarefas
+                    vertical: 8, // Distância entre os itens da lista
+                  ),
                   decoration: BoxDecoration(
-                    color:
-                        Colors.blueGrey[50], // Cor de fundo da tarefa pendente
-                    borderRadius: BorderRadius.circular(
-                      20,
-                    ), // Bordas arredondadas
+                    color: Colors.blueGrey[50], // Cor de fundo para tarefas pendentes
+                    borderRadius: BorderRadius.circular(20), // Bordas arredondadas
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black26, // Cor da sombra
@@ -130,7 +122,7 @@ class _TaskScreenState extends State<TaskScreen>
                     ],
                   ),
                   child: ListTile(
-                    contentPadding: EdgeInsets.all(16),
+                    contentPadding: EdgeInsets.all(16), // Espaçamento interno do ListTile
                     title: Text(
                       _pendingTasks[index], // Nome da tarefa pendente
                       style: TextStyle(
@@ -140,22 +132,19 @@ class _TaskScreenState extends State<TaskScreen>
                       ),
                     ),
                     leading: Icon(
-                      Icons
-                          .access_time, // Ícone de relógio para tarefas pendentes
+                      Icons.access_time, // Ícone de relógio para tarefas pendentes
                       color: Colors.orangeAccent,
                     ),
                     trailing: IconButton(
                       icon: Icon(
-                        Icons.check_circle,
+                        Icons.check_circle, // Ícone de "check" para marcar como concluída
                         color: Colors.green,
-                      ), // Ícone de "check" para marcar como concluída
+                      ),
                       onPressed: () {
                         setState(() {
                           // Move a tarefa para a lista de concluídas
                           _completedTasks.add(_pendingTasks[index]);
-                          _pendingTasks.removeAt(
-                            index,
-                          ); // Remove da lista de pendentes
+                          _pendingTasks.removeAt(index); // Remove a tarefa da lista de pendentes
                         });
                       },
                     ),
@@ -168,22 +157,17 @@ class _TaskScreenState extends State<TaskScreen>
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: ListView.builder(
-              itemCount:
-                  _completedTasks.length, // Quantidade de tarefas concluídas
+              itemCount: _completedTasks.length, // Quantidade de tarefas concluídas
               itemBuilder: (context, index) {
                 return AnimatedContainer(
-                  duration: Duration(milliseconds: 300), // Duração da animação
+                  duration: Duration(milliseconds: 300), // Duração da animação de transição
                   curve: Curves.easeInOut, // Tipo de animação
                   margin: EdgeInsets.symmetric(
-                    vertical: 8,
-                  ), // Margem para separar as tarefas
+                    vertical: 8, // Distância entre os itens da lista
+                  ),
                   decoration: BoxDecoration(
-                    color:
-                        Colors
-                            .green[50], // Cor de fundo para tarefas concluídas
-                    borderRadius: BorderRadius.circular(
-                      20,
-                    ), // Bordas arredondadas
+                    color: Colors.green[50], // Cor de fundo para tarefas concluídas
+                    borderRadius: BorderRadius.circular(20), // Bordas arredondadas
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black26, // Cor da sombra
@@ -193,7 +177,7 @@ class _TaskScreenState extends State<TaskScreen>
                     ],
                   ),
                   child: ListTile(
-                    contentPadding: EdgeInsets.all(16),
+                    contentPadding: EdgeInsets.all(16), // Espaçamento interno do ListTile
                     title: Text(
                       _completedTasks[index], // Nome da tarefa concluída
                       style: TextStyle(
@@ -203,9 +187,9 @@ class _TaskScreenState extends State<TaskScreen>
                       ),
                     ),
                     leading: Icon(
-                      Icons.check_circle,
+                      Icons.check_circle, // Ícone de "check" para tarefas concluídas
                       color: Colors.green,
-                    ), // Ícone de "check" para tarefas concluídas
+                    ),
                   ),
                 );
               },
@@ -224,7 +208,7 @@ class _TaskScreenState extends State<TaskScreen>
                 title: Text('Adicionar Nova Tarefa'),
                 content: TextField(
                   controller: _taskController, // Controlador do campo de texto
-                  decoration: InputDecoration(hintText: 'Digite a tarefa'),
+                  decoration: InputDecoration(hintText: 'Digite a tarefa'), // Placeholder
                 ),
                 actions: <Widget>[
                   TextButton(
@@ -253,7 +237,7 @@ class _TaskScreenState extends State<TaskScreen>
         },
         child: Icon(Icons.add), // Ícone de adicionar tarefa
         backgroundColor: Colors.blueAccent,
-        elevation: 8,
+        elevation: 8, // Sombra do botão flutuante
       ),
     );
   }
