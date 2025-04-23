@@ -1,26 +1,27 @@
-import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/material.dart'; // Pacote principal do Flutter para UI
+import 'package:fl_chart/fl_chart.dart'; // Pacote para gráficos (utilizado para o gráfico de pizza)
+import 'package:google_fonts/google_fonts.dart'; // Permite usar fontes do Google Fonts
 
+// Widget de tela com estado (permite atualização da interface)
 class DashboardScreen extends StatefulWidget {
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  // Listas para armazenar tarefas pendentes e concluídas
   List<String> _pendingTasks = ['Tarefa 1', 'Tarefa 2'];
   List<String> _completedTasks = ['Tarefa A'];
 
+  // Função para adicionar nova tarefa
   void _addTask() {
-    TextEditingController _taskController = TextEditingController();
+    TextEditingController _taskController = TextEditingController(); // Controlador para input de texto
 
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)), // Borda arredondada
           title: Text(
             'Adicionar Nova Tarefa',
             style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
@@ -33,17 +34,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ),
           actions: [
+            // Botão de adicionar tarefa
             TextButton(
               onPressed: () {
                 if (_taskController.text.isNotEmpty) {
                   setState(() {
-                    _pendingTasks.add(_taskController.text);
+                    _pendingTasks.add(_taskController.text); // Adiciona tarefa à lista de pendentes
                   });
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(); // Fecha o diálogo
                 }
               },
               child: Text('Adicionar'),
             ),
+            // Botão de cancelar
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text('Cancelar'),
@@ -56,7 +59,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final gradientColors = [Color(0xFF6A11CB), Color(0xFF2575FC)];
+    final gradientColors = [Color(0xFF6A11CB), Color(0xFF2575FC)]; // Gradiente usado nos títulos e AppBar
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -68,6 +71,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         backgroundColor: gradientColors[0],
         elevation: 6,
         actions: [
+          // Botão "+" para adicionar nova tarefa
           IconButton(
             icon: Icon(Icons.add, color: Colors.white),
             onPressed: _addTask,
@@ -79,6 +83,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Título da seção
             Text(
               'Resumo das Tarefas',
               style: GoogleFonts.poppins(
@@ -88,22 +93,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
             SizedBox(height: 20),
+            // Grid com cards de resumo
             GridView.builder(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: NeverScrollableScrollPhysics(), // Desativa scroll dentro do Grid
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+                crossAxisCount: 2, // 2 colunas
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
                 childAspectRatio: 1.4,
               ),
-              itemCount: 4,
+              itemCount: 4, // Número de cards
               itemBuilder: (context, index) {
                 IconData icon;
                 String title;
                 String value;
                 Color bgColor;
 
+                // Define os dados dos cards com base no índice
                 switch (index) {
                   case 0:
                     icon = Icons.pending_actions_rounded;
@@ -120,18 +127,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   case 2:
                     icon = Icons.loop;
                     title = 'Em Andamento';
-                    value = '0';
+                    value = '0'; // Placeholder
                     bgColor = Colors.amber;
                     break;
                   default:
                     icon = Icons.task;
                     title = 'Total';
-                    value =
-                        (_pendingTasks.length + _completedTasks.length)
-                            .toString();
+                    value = (_pendingTasks.length + _completedTasks.length).toString();
                     bgColor = Colors.deepPurple;
                 }
 
+                // Layout de cada card
                 return Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -178,6 +184,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               },
             ),
             SizedBox(height: 32),
+            // Título da seção de progresso
             Text(
               'Progresso das Tarefas',
               style: GoogleFonts.poppins(
@@ -187,6 +194,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
             SizedBox(height: 24),
+            // Gráfico de pizza mostrando pendentes vs concluídas
             AspectRatio(
               aspectRatio: 1.4,
               child: PieChart(
@@ -194,6 +202,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   sectionsSpace: 6,
                   centerSpaceRadius: 45,
                   sections: [
+                    // Seção de tarefas pendentes
                     PieChartSectionData(
                       value: _pendingTasks.length.toDouble(),
                       color: Colors.orangeAccent,
@@ -205,6 +214,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    // Seção de tarefas concluídas
                     PieChartSectionData(
                       value: _completedTasks.length.toDouble(),
                       color: Colors.green,
@@ -221,6 +231,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
             SizedBox(height: 28),
+            // Resumo final com quantidade de tarefas
             Container(
               width: double.infinity,
               padding: EdgeInsets.all(16),
